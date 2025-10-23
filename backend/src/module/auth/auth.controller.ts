@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards, Request, Get, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AccessTokentype } from 'src/common/utils/types/types';
+import { AccessTokentype } from '../../common/utils/types/types';
 import { SignupDto } from './dto/signup.dto';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { ApiErrorResponses } from '../../common/decorators/api-error-responses.decorator';

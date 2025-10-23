@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { AccessTokentype, EmailVerifyPayloadTypes, EmailVerifyTokenType, JWTPayloadTypes, RefreshPayload, Tokens } from 'src/common/utils/types/types';
+import { AccessTokentype, EmailVerifyPayloadTypes, EmailVerifyTokenType, JWTPayloadTypes, RefreshPayload, Tokens } from '../../common/utils/types/types';
 import {  SignupDto } from './dto/signup.dto';
 import { MailService } from '../mail/mail.service';
 

@@ -4,7 +4,7 @@ import { CreateFavoriteDto } from './dto/create-favorite.dto';
 import { UpdateFavoriteDto } from './dto/update-favorite.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { ApiErrorResponses } from 'src/common/decorators/api-error-responses.decorator';
+import { ApiErrorResponses } from '../../common/decorators/api-error-responses.decorator';
 
 @Controller('favorite')
 @ApiBearerAuth()
