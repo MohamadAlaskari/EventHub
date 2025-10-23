@@ -26,9 +26,6 @@ export class User {
     default: CountryCode.DE,      
     })
     country: CountryCode;
-
-    @Column({ type: 'varchar', nullable: true })
-    refreshTokenHash?: string | null;
     
 
     @OneToMany(() => Favorite, favorite => favorite.user)

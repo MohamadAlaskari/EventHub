@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AccessTokentype, EmailVerifyPayloadTypes, EmailVerifyTokenType, JWTPayloadTypes, RefreshPayload, Tokens } from '../../common/utils/types/types';
 import {  SignupDto } from './dto/signup.dto';
 import { MailService } from '../mail/mail.service';
+import { RedisService } from '../redis/redis.service';
 
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
@@ -18,6 +19,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly mailService: MailService,
     private readonly configService: ConfigService,
+    private readonly redisService: RedisService,
   ) {}
 
   async signup(signupDto: SignupDto) : Promise <any> {
@@ -66,15 +68,19 @@ export class AuthService {
       throw new BadRequestException('Invalid token type');
     }
 
-    // 2) User laden + Hash vergleichen
+    // 2) User laden
     const user = await this.userService.findOne(payload.sub);
     if (!user) throw new NotFoundException('User not found');
-    if (!user.refreshTokenHash) throw new ForbiddenException('No active session');
 
-    const ok = await bcrypt.compare(refreshToken, user.refreshTokenHash);
-    if (!ok) throw new ForbiddenException('Invalid refresh token');
+    // 3) Refresh Token aus Redis abrufen und vergleichen
+    const storedRefreshToken = await this.redisService.getRefreshToken(payload.sub);
+    if (!storedRefreshToken) throw new ForbiddenException('No active session');
+    
+    if (storedRefreshToken !== refreshToken) {
+      throw new ForbiddenException('Invalid refresh token');
+    }
 
-    // 3) Neue Tokens ausstellen und Hash rotieren
+    // 4) Neue Tokens ausstellen und Refresh Token in Redis aktualisieren
     return this.issueTokens({
       id: user.id,
       name: user.name,
@@ -84,7 +90,8 @@ export class AuthService {
   }
 
   async logout(userId: string): Promise<{ status: true , message: string }> {
-    await this.userService.update(userId, { refreshTokenHash: null }) as UpdateUserDto;
+    // Refresh Token aus Redis löschen
+    await this.redisService.deleteRefreshToken(userId);
     return { status: true  , message: 'Logged out successfully' };
   }
 
@@ -155,10 +162,11 @@ export class AuthService {
       isEmailVerified: user.isEmailVerified,
     });
     const refresh = await this.signRefreshToken(user.id);
-    // Hash speichern (nie den Rohwert)
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(refresh, salt);
-    await this.userService.update(user.id, { refreshTokenHash: hash });
+    
+    // Refresh Token in Redis speichern (TTL: 7 Tage)
+    const refreshTokenTTL = 7 * 24 * 60 * 60; // 7 Tage in Sekunden
+    await this.redisService.setRefreshToken(user.id, refresh, refreshTokenTTL);
+    
     return { access_token: access, refresh_token: refresh };
   }
 

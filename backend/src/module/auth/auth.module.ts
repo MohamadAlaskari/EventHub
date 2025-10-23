@@ -10,6 +10,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { AppConfigService } from '../../common/utils/app-config.service';
 import { MailModule } from '../mail/mail.module';
 import { MailService } from '../mail/mail.service';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { MailService } from '../mail/mail.service';
     }),
     UserModule,
     MailModule,
+    RedisModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy,MailService ,AppConfigService ],
