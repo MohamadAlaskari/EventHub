@@ -1,4 +1,4 @@
-import { Favorite } from "src/module/favorite/entities/favorite.entity";
+import { Favorite } from "../../favorite/entities/favorite.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CountryCode } from "../enum/CountryCode.enum";
 

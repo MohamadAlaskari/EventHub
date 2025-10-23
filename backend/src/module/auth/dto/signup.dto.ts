@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsEnum, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
-import { CountryCode } from "src/module/user/enum/CountryCode.enum";
+import { CountryCode } from "../../user/enum/CountryCode.enum";
 
 export class SignupDto {
 
