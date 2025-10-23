@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import SEO from "@/components/SEO";
 import { useAuth } from "@/hooks/useAuth";
 import { Globe, Mail, User, Lock, EyeOff, Eye } from "lucide-react";
 import { useState } from "react";
@@ -128,7 +129,11 @@ const Register = () => {
 
   return (
     <>
-     
+      <SEO 
+        title="Register - EventHub | Create Your Account"
+        description="Join EventHub and create your account to discover and attend amazing events. Sign up today to start your event journey."
+        keywords="register, sign up, create account, EventHub, events, join, membership"
+      />
       
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-accent/5 to-background px-4 py-12">
         <div className="w-full max-w-md">

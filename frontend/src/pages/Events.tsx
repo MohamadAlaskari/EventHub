@@ -1,5 +1,6 @@
 import EventCard from "@/components/EventCard";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -74,6 +75,11 @@ const Events = () => {
 
   return (
     <Layout>
+      <SEO 
+        title="Events - EventHub | Discover Amazing Events"
+        description="Find amazing events happening around you. From concerts to conferences, discover and attend incredible events with EventHub."
+        keywords="events, concerts, conferences, festivals, tickets, discover events, entertainment, music, tech events, local events"
+      />
       {/* Header Section */}
       <section className="bg-gradient-hero py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

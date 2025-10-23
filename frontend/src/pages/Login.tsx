@@ -84,7 +84,7 @@ const Login = () => {
       <SEO 
         title="Login - EventHub"
         description="Sign in to your EventHub account to manage and discover events"
-        canonical="/login"
+        keywords="login, sign in, account, events, EventHub"
       />
       
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-accent/5 to-background px-4 py-12">

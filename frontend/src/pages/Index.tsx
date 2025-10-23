@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout"
+import SEO from "@/components/SEO"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "lucide-react"
 import { Link } from "react-router-dom"
@@ -7,6 +8,11 @@ import heroImage from '@/assets/hero-events.jpg';
 const Index = () => {
     return (
         <Layout>
+            <SEO 
+                title="EventHub - Discover Amazing Events Near You"
+                description="Join thousands of people discovering and attending incredible events. From music festivals to tech conferences, find your next adventure with EventHub."
+                keywords="events, concerts, festivals, conferences, tickets, networking, entertainment, music, tech, discover events"
+            />
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-hero min-h-[calc(100vh)] flex items-center">
                 <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40" style={{ backgroundImage: `url(${heroImage})` }} />

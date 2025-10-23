@@ -1,6 +1,7 @@
 import AuthRequired from "@/components/AuthRequired"
 import Layout from "@/components/Layout"
 import QuickStatCard from "@/components/QuickStatCard"
+import SEO from "@/components/SEO"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
 import { useAuth } from "@/hooks/useAuth"
@@ -27,6 +28,11 @@ const Profile = () => {
     }
     return (
         <Layout>
+            <SEO 
+                title="Profile - EventHub | Your Account Dashboard"
+                description="Manage your EventHub profile, view your favorite events, and track your event activity. Your personal event dashboard."
+                keywords="profile, account, dashboard, favorites, user profile, EventHub, personal events"
+            />
             <div className="container mx-auto px-4 py-8 max-w-4xl">
                 <div className="space-y-8">
         
