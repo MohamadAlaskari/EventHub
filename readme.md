@@ -17,6 +17,15 @@
   Discover amazing events happening around you. From concerts and festivals to conferences and local gatherings, EventHub provides a comprehensive platform for event discovery and management with modern web technologies.
 </p>
 
+<div align="center">
+  <h3>🚀 Live Demo</h3>
+  <p>
+    <a href="https://eventhub.alaskaritech.com/" target="_blank">🌐 Frontend</a> • 
+    <a href="https://eventhub-api.alaskaritech.com/" target="_blank">🔧 API</a> • 
+    <a href="https://eventhub-api.alaskaritech.com/swagger#/" target="_blank">📚 Documentation</a>
+  </p>
+</div>
+
 ---
 
 ## 🚀 Overview
@@ -33,6 +42,7 @@ EventsHub is a complete event management solution consisting of a modern React f
 - **🌍 Multi-Country Support**: Events from multiple countries worldwide
 - **📧 Email Notifications**: Email verification and user communications
 - **📚 API Documentation**: Comprehensive Swagger/OpenAPI documentation
+- **🔍 SEO Optimization**: Dynamic meta tags and Open Graph support for better search engine visibility
 
 ---
 
@@ -46,10 +56,12 @@ EventsHub is a complete event management solution consisting of a modern React f
 - **Routing**: React Router DOM
 - **Maps**: Mapbox GL
 - **Forms**: React Hook Form with Zod validation
+- **SEO**: Dynamic meta tags and Open Graph support
 
 ### Backend (NestJS + TypeScript)
 - **Framework**: NestJS (Node.js)
 - **Database**: MySQL with TypeORM
+- **Cache**: Redis for refresh token storage
 - **Authentication**: JWT with Passport.js
 - **Email**: Nodemailer
 - **API Documentation**: Swagger/OpenAPI
@@ -128,6 +140,7 @@ EventHub/
 
 - Node.js (v18 or higher)
 - MySQL database
+- Redis server (for refresh token storage)
 - npm or yarn package manager
 - Docker and Docker Compose (optional, for containerized deployment)
 
@@ -149,6 +162,7 @@ docker-compose up --build
 # The application will be available at:
 # Frontend: http://localhost:80
 # Backend: http://localhost:3000
+# Redis: localhost:6379
 # API Documentation: http://localhost:3000/swagger
 ```
 
@@ -185,6 +199,9 @@ MAIL_PASS=your-email-password
 
 # External APIs
 TICKETMASTER_API_KEY=your-ticketmaster-api-key
+
+# Redis Configuration
+REDIS_URL=redis://localhost:6379
 
 # Server Configuration
 PORT=3000
@@ -247,6 +264,7 @@ Create a `.env` file in the `backend/` directory with the following variables:
 | `MAIL_USER` | SMTP username | Yes | - |
 | `MAIL_PASS` | SMTP password | Yes | - |
 | `TICKETMASTER_API_KEY` | Ticketmaster API key | Yes | - |
+| `REDIS_URL` | Redis connection URL | Yes | `redis://localhost:6379` |
 | `PORT` | Server port | No | `3000` |
 
 ### Frontend Environment Variables
@@ -288,6 +306,156 @@ Create a `.env` file in the `frontend/` directory with the following variables:
 
 ---
 
+## 🔴 Redis Configuration
+
+EventHub uses Redis for storing refresh tokens, providing better performance and automatic TTL (Time To Live) management compared to database storage.
+
+### Redis Setup
+
+#### Using Docker Compose (Recommended)
+Redis is automatically configured when using Docker Compose:
+
+```bash
+# Start all services including Redis
+docker-compose up --build
+
+# Redis will be available at localhost:6379
+```
+
+#### Manual Redis Setup
+1. Install Redis on your system:
+   ```bash
+   # Ubuntu/Debian
+   sudo apt-get install redis-server
+   
+   # macOS (with Homebrew)
+   brew install redis
+   
+   # Windows (with WSL or Docker)
+   # Use Docker: docker run -d -p 6379:6379 redis:alpine
+   ```
+
+2. Start Redis server:
+   ```bash
+   # Linux/macOS
+   redis-server
+   
+   # Or as a service
+   sudo systemctl start redis
+   ```
+
+### Redis Configuration
+
+The application uses Redis with the following configurations:
+
+#### Development (Local)
+- **Host**: localhost
+- **Port**: 6379
+- **TTL**: 7 days for refresh tokens
+- **Persistence**: Enabled with append-only file
+
+#### Production (Vercel Redis)
+- **Provider**: Vercel Redis
+- **Connection**: Secure connection string from Vercel dashboard
+- **TTL**: 7 days for refresh tokens
+- **Persistence**: Managed by Vercel
+- **URL**: Set via `REDIS_URL` environment variable
+
+### Redis Monitoring
+
+#### Development (Local Redis)
+```bash
+# Connect to Redis
+redis-cli
+
+# View all keys
+KEYS *
+
+# Check refresh token for a user
+GET refresh_token:USER_ID
+
+# Check TTL for a key
+TTL refresh_token:USER_ID
+
+# View Redis info
+INFO
+```
+
+#### Production (Vercel Redis)
+```bash
+# Connect to Vercel Redis (if accessible)
+redis-cli -u $REDIS_URL
+
+# Monitor Redis through Vercel dashboard
+# - View Redis metrics
+# - Check connection status
+# - Monitor memory usage
+# - View Redis logs
+```
+
+### Redis Benefits
+
+1. **Performance**: Faster than database queries
+2. **Automatic Expiration**: Tokens expire automatically after TTL
+3. **Memory Efficiency**: Optimized for key-value storage
+4. **Scalability**: Can be clustered for high availability
+5. **Security**: Tokens are automatically cleaned up
+
+---
+
+## 🔍 SEO Optimization
+
+EventHub includes comprehensive SEO features to improve search engine visibility and social media sharing.
+
+### SEO Component Features
+
+The application includes a custom `SEO` component (`frontend/src/components/SEO.tsx`) that provides:
+
+- **Dynamic Meta Tags**: Automatically updates page titles, descriptions, and keywords
+- **Open Graph Support**: Optimized social media sharing with og:title, og:description, og:image, og:url
+- **Structured Data**: Proper meta tag management for search engines
+- **Page-Specific SEO**: Each page can have custom SEO settings
+
+### SEO Implementation
+
+```typescript
+// Example usage in pages
+<SEO 
+  title="EventHub - Discover Amazing Events Near You"
+  description="Join thousands of people discovering and attending incredible events. From music festivals to tech conferences, find your next adventure with EventHub."
+  keywords="events, concerts, festivals, conferences, tickets, networking, entertainment, music, tech, discover events"
+  image="/og-image.jpg"
+  url={window.location.href}
+/>
+```
+
+### SEO Features by Page
+
+- **Homepage**: Optimized for event discovery keywords
+- **Events Page**: Dynamic SEO based on search filters and country
+- **Event Details**: Individual event SEO with specific event information
+- **User Pages**: Personalized SEO for user profiles and favorites
+
+### SEO Best Practices Implemented
+
+1. **Meta Tags**: Title, description, keywords for each page
+2. **Open Graph**: Social media optimization for Facebook, Twitter, LinkedIn
+3. **Structured URLs**: Clean, SEO-friendly URLs
+4. **Image Optimization**: Proper alt tags and image metadata
+5. **Performance**: Fast loading times for better SEO rankings
+6. **Mobile-First**: Responsive design for mobile SEO
+
+### SEO Configuration
+
+The SEO component automatically handles:
+- Dynamic title updates
+- Meta tag creation and updates
+- Open Graph tag management
+- URL canonicalization
+- Social media preview optimization
+
+---
+
 ## 🎯 Key Features
 
 ### 🎫 Event Discovery & Management
@@ -320,6 +488,7 @@ Create a `.env` file in the `frontend/` directory with the following variables:
 - **API Documentation**: Comprehensive Swagger/OpenAPI documentation
 - **Database Integration**: MySQL with TypeORM for data persistence
 - **Docker Support**: Containerized deployment with Docker Compose
+- **SEO Optimization**: Dynamic meta tags and Open Graph support
 - **Testing**: Unit and E2E tests for both frontend and backend
 - **Code Quality**: ESLint, Prettier, and consistent code formatting
 
@@ -401,34 +570,90 @@ docker run -p 80:80 eventhub-frontend
 
 ### ☁️ Cloud Deployment
 
+#### Production Deployment (Vercel + Hostinger)
+
+The application is currently deployed using the following setup:
+
+**Live URLs:**
+- **Frontend**: [https://eventhub.alaskaritech.com/](https://eventhub.alaskaritech.com/)
+- **Backend API**: [https://eventhub-api.alaskaritech.com/](https://eventhub-api.alaskaritech.com/)
+- **API Documentation**: [https://eventhub-api.alaskaritech.com/swagger#/](https://eventhub-api.alaskaritech.com/swagger#/)
+
 #### Backend Deployment (Vercel)
 
-The backend is configured for Vercel serverless deployment:
+The backend is deployed on Vercel with the following configuration:
 
-1. Install Vercel CLI:
+1. **Vercel CLI Setup**:
 ```bash
 npm i -g vercel
 ```
 
-2. Deploy:
+2. **Deploy Backend**:
 ```bash
 cd backend
 vercel
 ```
 
-3. Set environment variables in Vercel dashboard
+3. **Environment Variables in Vercel Dashboard**:
+   - `DB_TYPE=mysql`
+   - `DB_HOST=your-database-host`
+   - `DB_PORT=3306`
+   - `DB_USERNAME=your-username`
+   - `DB_PASSWORD=your-password`
+   - `DB_NAME=your-database-name`
+   - `JWT_SECRET=your-jwt-secret`
+   - `JWT_REFRESH_SECRET=your-refresh-secret`
+   - `MAIL_HOST=your-smtp-host`
+   - `MAIL_PORT=587`
+   - `MAIL_USER=your-email`
+   - `MAIL_PASS=your-email-password`
+   - `TICKETMASTER_API_KEY=your-ticketmaster-api-key`
+   - `REDIS_URL=your-vercel-redis-url`
+   - `PORT=3000`
 
-#### Frontend Deployment
+#### Frontend Deployment (Vercel)
 
-The frontend can be deployed to any static hosting service:
+The frontend is deployed on Vercel with custom domain:
 
-1. Build the project:
+1. **Build Configuration**:
 ```bash
 cd frontend
 npm run build
 ```
 
-2. Deploy the `dist` folder to your hosting service (Netlify, Vercel, AWS S3, etc.)
+2. **Vercel Deployment**:
+```bash
+vercel
+```
+
+3. **Custom Domain Setup**:
+   - Domain: `eventhub.alaskaritech.com`
+   - Configured in Vercel dashboard
+   - SSL certificate automatically managed by Vercel
+
+#### Redis Configuration (Vercel Redis)
+
+The application uses Vercel Redis for production:
+
+1. **Vercel Redis Setup**:
+   - Create Redis database in Vercel dashboard
+   - Get connection URL from Vercel Redis
+   - Set `REDIS_URL` environment variable
+
+2. **Redis Configuration**:
+   - **Provider**: Vercel Redis
+   - **Connection**: Secure connection string
+   - **TTL**: 7 days for refresh tokens
+   - **Persistence**: Managed by Vercel
+
+#### Domain Configuration (Hostinger)
+
+Custom domains configured through Hostinger:
+
+- **Frontend**: `eventhub.alaskaritech.com` → Vercel frontend deployment
+- **Backend**: `eventhub-api.alaskaritech.com` → Vercel backend deployment
+- **SSL**: Automatically managed by Vercel
+- **DNS**: Configured in Hostinger DNS settings
 
 ---
 
@@ -512,12 +737,14 @@ The frontend includes comprehensive component testing with React Testing Library
 - **Mapbox GL**: Interactive maps and geolocation
 - **React Hook Form**: Form handling with validation
 - **Zod**: Schema validation
+- **SEO Component**: Dynamic meta tags and Open Graph support
 
 ### Backend Architecture
 - **NestJS**: Scalable Node.js server framework
 - **TypeScript**: Type-safe backend development
 - **TypeORM**: Object-relational mapping
 - **MySQL**: Relational database
+- **Redis**: In-memory cache for refresh tokens
 - **JWT**: JSON Web Token authentication
 - **Passport**: Authentication middleware
 - **Nodemailer**: Email service integration
@@ -530,6 +757,135 @@ The frontend includes comprehensive component testing with React Testing Library
 - **Favorites**: User's saved events
 - **Events**: External event data (from Ticketmaster API)
 - **Relationships**: User-Favorite-Event associations
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### Redis Connection Issues
+```bash
+# Check if Redis is running
+docker ps | grep redis
+
+# Check Redis logs
+docker logs eventhub_redis
+
+# Test Redis connection
+docker exec -it eventhub_redis redis-cli ping
+```
+
+#### Database Connection Issues
+```bash
+# Check MySQL connection
+docker exec -it eventhub_backend npm run start:dev
+
+# Verify database credentials in .env file
+```
+
+#### Frontend Build Issues
+```bash
+# Clear node_modules and reinstall
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
+
+# Check environment variables
+cat .env
+```
+
+#### Port Conflicts
+If you encounter port conflicts:
+
+```bash
+# Check what's using the ports
+netstat -tulpn | grep :3000
+netstat -tulpn | grep :80
+netstat -tulpn | grep :6379
+
+# Stop conflicting services or change ports in docker-compose.yml
+```
+
+### Environment Variables Issues
+
+#### Missing Environment Variables
+Ensure all required environment variables are set:
+
+```bash
+# Backend .env file should contain:
+DB_TYPE=mysql
+DB_HOST=your-database-host
+DB_PORT=3306
+DB_USERNAME=your-username
+DB_PASSWORD=your-password
+DB_NAME=your-database-name
+JWT_SECRET=your-jwt-secret
+JWT_REFRESH_SECRET=your-refresh-secret
+MAIL_HOST=your-smtp-host
+MAIL_PORT=587
+MAIL_USER=your-email
+MAIL_PASS=your-email-password
+TICKETMASTER_API_KEY=your-ticketmaster-api-key
+REDIS_URL=redis://localhost:6379
+PORT=3000
+
+# Frontend .env file should contain:
+VITE_API_BASE_URL=http://localhost:3000
+VITE_MAPBOX_ACCESS_TOKEN=your-mapbox-token
+```
+
+#### Docker Issues
+```bash
+# Rebuild containers
+docker-compose down
+docker-compose up --build
+
+# Remove all containers and volumes
+docker-compose down -v
+docker system prune -a
+```
+
+### Performance Issues
+
+#### Redis Memory Usage
+```bash
+# Check Redis memory usage
+docker exec -it eventhub_redis redis-cli INFO memory
+
+# Clear Redis cache (if needed)
+docker exec -it eventhub_redis redis-cli FLUSHALL
+```
+
+#### Database Performance
+- Ensure MySQL has proper indexing
+- Check database connection pool settings
+- Monitor slow query logs
+
+### Logs and Debugging
+
+#### View Application Logs
+```bash
+# Backend logs
+docker logs -f eventhub_backend
+
+# Frontend logs
+docker logs -f eventhub_frontend
+
+# Redis logs
+docker logs -f eventhub_redis
+```
+
+#### Debug Mode
+```bash
+# Start backend in debug mode
+cd backend
+npm run start:debug
+
+# Check API endpoints
+curl http://localhost:3000/health
+curl http://localhost:3000/swagger
+```
 
 ---
 
