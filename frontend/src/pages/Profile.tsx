@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { useAuth } from "@/hooks/useAuth"
 import { useFavorites } from "@/hooks/useFavorites"
 import { useUser } from "@/hooks/useUser"
@@ -265,7 +264,7 @@ const Profile = () => {
                             <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {/* Password Change - Coming Soon */}
                                 <div className="space-y-2">
-                                    <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
+                                    <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50 h-16">
                                         <div className="flex items-center space-x-2">
                                             <Lock className="h-4 w-4 text-muted-foreground" />
                                             <span className="text-sm text-muted-foreground">Change Password</span>
@@ -276,53 +275,49 @@ const Profile = () => {
 
                                 {/* Account Deletion */}
                                 <div className="space-y-2">
-                                    <div className="p-3 border border-destructive/20 rounded-lg bg-destructive/5">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center space-x-2">
-                                                <Trash2 className="h-4 w-4" />
-                                                <p className=" text-sm font-medium"> Delete Account</p>
-                                                
-                                            </div>
-                                            <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-                                                <DialogTrigger asChild>
+                                    <div className="flex items-center justify-between p-4 border border-destructive/20 rounded-lg bg-destructive/5 h-16">
+                                        <div className="flex items-center space-x-2">
+                                            <Trash2 className="h-4 w-4" />
+                                            <p className="text-sm font-medium">Delete Account</p>
+                                        </div>
+                                        <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+                                            <DialogTrigger asChild>
+                                                <Button
+                                                    variant="destructive"
+                                                    size="sm"
+                                                    className="flex items-center space-x-2"
+                                                >
+                                                    <span>Delete</span>
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle className="flex items-center space-x-2">
+                                                        <AlertTriangle className="h-5 w-5 text-destructive" />
+                                                        <span>Delete Account</span>
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        Are you sure you want to delete your account? This action cannot be undone.
+                                                        All your data, including favorites and profile information, will be permanently removed.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() => setShowDeleteDialog(false)}
+                                                    >
+                                                        Cancel
+                                                    </Button>
                                                     <Button
                                                         variant="destructive"
-                                                        size="sm"
-                                                        className="flex items-center space-x-2"
+                                                        onClick={handleDeleteAccount}
+                                                        disabled={isDeleting}
                                                     >
-                                                        
-                                                        <span>Delete</span>
+                                                        {isDeleting ? 'Deleting...' : 'Delete Account'}
                                                     </Button>
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <DialogHeader>
-                                                        <DialogTitle className="flex items-center space-x-2">
-                                                            <AlertTriangle className="h-5 w-5 text-destructive" />
-                                                            <span>Delete Account</span>
-                                                        </DialogTitle>
-                                                        <DialogDescription>
-                                                            Are you sure you want to delete your account? This action cannot be undone.
-                                                            All your data, including favorites and profile information, will be permanently removed.
-                                                        </DialogDescription>
-                                                    </DialogHeader>
-                                                    <DialogFooter>
-                                                        <Button
-                                                            variant="outline"
-                                                            onClick={() => setShowDeleteDialog(false)}
-                                                        >
-                                                            Cancel
-                                                        </Button>
-                                                        <Button
-                                                            variant="destructive"
-                                                            onClick={handleDeleteAccount}
-                                                            disabled={isDeleting}
-                                                        >
-                                                            {isDeleting ? 'Deleting...' : 'Delete Account'}
-                                                        </Button>
-                                                    </DialogFooter>
-                                                </DialogContent>
-                                            </Dialog>
-                                        </div>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
                                     </div>
                                 </div>
                             </CardContent>
