@@ -16,7 +16,7 @@ class UserService {
 
     async updateUser( id: string, user: Partial<User> ): Promise<User> {
         try {
-            const response = await httpAuth.put<User>(`${API_ENDPOINTS.USER.UPDATE(id)}`, user);
+            const response = await httpAuth.patch<User>(`${API_ENDPOINTS.USER.UPDATE_PROFILE}`, user);
             return response.data;
         } catch (error) {
             throw new Error(`Failed to update user ${error instanceof Error ? error.message : 'Unknown error'}`);

@@ -30,14 +30,23 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
+  @Patch('profile')
+  @ApiOperation({ summary: 'Update current user profile' })
+  @ApiResponse({ status: 200, description: 'The user profile has been successfully updated.' })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  @ApiBody({ type: UpdateUserDto })
+  updateProfile(@Request() req, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(req.user.sub, updateUserDto);
+  }
+
   @Patch(':id')
-  @ApiOperation({ summary: 'Update a user' })
+  @ApiOperation({ summary: 'Update a user by ID' })
   @ApiResponse({ status: 200, description: 'The user has been successfully updated.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
   @ApiParam({ name: 'id', description: 'User ID' })
   @ApiBody({ type: UpdateUserDto })
-  update(@Request() req, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(req.user.sub, updateUserDto);
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')

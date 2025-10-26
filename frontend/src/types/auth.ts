@@ -4,8 +4,7 @@ export interface RegisterCredetials {
     name: string;
     email: string;
     password: string;
-    countryCode: CountryCode;
-
+    country: CountryCode;
 }
 
 export interface LoginCredentials {
@@ -23,10 +22,8 @@ export interface AuthUser {
   name: string;
   email: string;
   password: string;
-  isEmailVerified: true,
-  countryCode: string;
-  refreshTokenHash?: string;
-
+  isEmailVerified: boolean;
+  country: CountryCode;
 }
 
 

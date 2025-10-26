@@ -5,6 +5,5 @@ export interface User {
     name: string;
     email: string;
     isEmailVerified: boolean;
-    countryCode: CountryCode;
-    refreshTokenHash?: string;
+    country: CountryCode;
 }

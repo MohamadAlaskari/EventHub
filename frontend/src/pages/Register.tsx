@@ -27,7 +27,7 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
-    countryCode: CountryCode.DE,
+    country: CountryCode.DE,
     confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -76,7 +76,7 @@ const Register = () => {
       errors.confirmPassword = 'Passwords do not match';
     }
 
-    if (!formData.countryCode) {
+    if (!formData.country) {
       errors.country = 'Please select a country';
     }
 
@@ -207,8 +207,8 @@ const Register = () => {
                   <div className="relative">
                     <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
                     <Select
-                      value={formData.countryCode}
-                      onValueChange={handleSelectChange('countryCode')}
+                      value={formData.country}
+                      onValueChange={handleSelectChange('country')}
                     >
                       <SelectTrigger className="pl-10" aria-describedby={fieldErrors.country ? "country-error" : undefined}>
                         <SelectValue placeholder="Select your country" />

@@ -26,10 +26,7 @@ export const registerSchema = z.object({
     message: "Please select a country",
   }),
 
-    confirmPassword: z.string(), 
-        countryCode: z.nativeEnum(CountryCode, {
-        message: "Please select a country",
-        }),
+  confirmPassword: z.string(),
   
 })
     .refine((data) => data.password === data.confirmPassword, {

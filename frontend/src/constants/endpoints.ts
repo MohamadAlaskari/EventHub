@@ -31,6 +31,7 @@ export const USER_ENDPOINTS = {
   CREATE: '/user',                            
   GET_BY_ID: (id: string) => `/user/${id}`,   
   UPDATE: (id: string) => `/user/${id}`,      
+  UPDATE_PROFILE: '/user/profile',             
   DELETE: (id: string) => `/user/${id}`,      
 } as const;
 

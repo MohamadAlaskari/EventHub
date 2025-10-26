@@ -66,31 +66,29 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
     }, [] )
 
 
-   // 
-  const login= useCallback(async (credentials: LoginCredentials) => {
-    try {
-        setAuthState(oldState => ({ ...oldState, isLoading: true }));
+    // Login user
+    const login= useCallback(async (credentials: LoginCredentials) => {
+        try {
+            setAuthState(oldState => ({ ...oldState, isLoading: true }));
 
-        const user = await authService.login(credentials);
-        setAuthState({
-            user,
-            isAuthenticated: true,
-            isLoading: false,
-        })
+            const user = await authService.login(credentials);
+            setAuthState({
+                user,
+                isAuthenticated: true,
+                isLoading: false,
+            })
 
-      toast.success(`Welcome back, ${user.name}`);
+        toast.success(`Welcome back, ${user.name}`);
 
-    } catch (error: any) {
-        setAuthState( oldState => ({ ...oldState, isLoading: false }));
-        toast.error('Login failed', {
-            description: error instanceof Error ? error.message : 'An error occurred',
-        });
+        } catch (error: any) {
+            setAuthState( oldState => ({ ...oldState, isLoading: false }));
+            toast.error('Login failed', {
+                description: error instanceof Error ? error.message : 'An error occurred',
+            });
 
-        throw error;
-    }
-  },[]) 
-  
-
+            throw error;
+        }
+    },[]) 
 
     // Register user
     const register = useCallback(async (userData: RegisterCredetials) => {
@@ -119,6 +117,7 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
         }
     }, []); 
 
+    // Logout user
     const logout = useCallback(async () => {
         try {
             await authService.logout();
@@ -144,6 +143,7 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
     },[]) 
 
 
+    // Refresh user data
     const refreshUser = useCallback(async () => {
         try {
             const user = await authService.getCurrentUser();
