@@ -53,32 +53,33 @@ const EventDetail = () => {
     }
   };
 
-    const handleShare = async () => {
+  const handleShare = async () => {
     const url = window.location.href;
+  
     const shareData = {
       title: event?.name || 'Event',
       text: `Check out this event: ${event?.name}`,
-      url: url,
+      url,
     };
-
-    if (navigator.share && navigator.canShare(shareData)) {
-      try {
-        await navigator.share(shareData);
-      } catch (error) {
-        // Fallback to clipboard
-        await navigator.clipboard.writeText(url);
-        toast.success('Link copied!', {
-          description: 'Event link copied to clipboard.',
-        });
-      }
-    } else {
-      // Fallback to clipboard
+  
+    const copyToClipboard = async () => {
       await navigator.clipboard.writeText(url);
       toast.success('Link copied!', {
         description: 'Event link copied to clipboard.',
       });
+    };
+  
+    try {
+      if (navigator.share && navigator.canShare?.(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        await copyToClipboard(); // Fallback
+      }
+    } catch (error) {
+      await copyToClipboard(); // Backup fallback
     }
   };
+  
 
 
   if(isLoading){

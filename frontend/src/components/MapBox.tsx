@@ -22,9 +22,9 @@ const MapBox = ({ lat, long, zoom = 12, height = '400px' }: MapBoxProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (map.current) return; // Map already initialized
+    if (map.current) return; 
 
-    // Check if MapBox Access Token is set
+    
     if (!MAPBOX_ACCESS_TOKEN) {
       console.error('MapBox Access Token ist nicht gesetzt. Bitte VITE_MAPBOX_ACCESS_TOKEN in der .env-Datei definieren.');
       return;
@@ -36,8 +36,13 @@ const MapBox = ({ lat, long, zoom = 12, height = '400px' }: MapBoxProps) => {
     // create new map instance
     map.current = new mapboxgl.Map({
       container: mapContainer.current!,
-      style: 'mapbox://styles/mapbox/streets-v12', // Standard-Style
-      center: [long, lat], // [longitude, latitude]
+      style: 'mapbox://styles/mapbox/standard',
+      config: {
+        basemap: {
+          theme: 'Warm'
+        }
+      },
+      center: [long, lat], 
       zoom: zoom
     });
 
