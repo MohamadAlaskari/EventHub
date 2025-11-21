@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 const Footer = () => {
   return    (
-    <footer className="absolute bottom-0 w-full bg-gradient-hero text-white p-6">
+    <footer className="absolute bottom-0 w-full bg-gradient-hero text-primary-foreground p-6">
         <div className=" flex justify-center ">
             <p className="">© 2025             
                 <Link to={"/"} className="text-1xl font-bold px-1">EventHub.</Link>

@@ -61,7 +61,7 @@ const Header = () => {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm" className="group flex items-center space-x-2">
-                            <span className="text-sm font-medium text-foreground group-hover:text-white">
+                            <span className="text-sm font-medium text-foreground group-hover:text-primary-foreground">
                                 Hallo, {user.name}
                             </span>
                         <ChevronDown className="h-4 w-4" />

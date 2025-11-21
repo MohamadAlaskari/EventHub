@@ -19,13 +19,13 @@ const Index = () => {
                 <div className="absolute inset-0 bg-gradient-hero opacity-90" />
                 <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-float">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 animate-float">
                             Discover Amazing                                
                             <span className="bg-gradient-accent bg-clip-text text-transparent block mt-2">
                                 Events Near You
                             </span>
                         </h1>    
-                        <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto leading-relaxed">
                             Join thousands of people discovering and attending incredible events. 
                             From music festivals to tech conferences, find your next adventure.
                         </p>
@@ -36,7 +36,7 @@ const Index = () => {
                                 </Button>
                             </Link>
                             <Link to="/register">
-                                <Button variant="outline" size="xl" className="w-full sm:w-auto bg-white/10 text-white border-white/30 hover:bg-white/20">
+                                <Button variant="outline" size="xl" className="w-full sm:w-auto bg-background/10 text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/20">
                                     Create Account
                                 </Button>
                             </Link>

@@ -187,11 +187,11 @@ const EventDetail = () => {
               <Badge variant="secondary">
                 {event.segment}
               </Badge>
-              <Badge variant="outline" className="text-white border-white/20">
+              <Badge variant="outline" className="text-primary-foreground border-primary-foreground/20">
                 {event.status}
               </Badge>
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-2">
               {event.name}
             </h1>
           </div>

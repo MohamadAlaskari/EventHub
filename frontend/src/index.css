@@ -52,38 +52,39 @@
   --radius: 0.75rem;
 
   /* Core Colors */
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --background: 0 0% 100%; /* hsl(0, 0%, 100%)*/
+  --foreground: 222.2 84% 4.9%; /* hsl(222.2, 84%, 4.9%)*/
 
   /* Card System */
-   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-
+   --card: 0 0% 100%; /* hsl(0, 0%, 100%)*/
+  --card-foreground: 222.2 84% 4.9%; /* hsl(222.2, 84%, 4.9%)*/
+ 
   /* Interactive Elements */
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%; /* hsl(0, 0%, 100%)*/
+  --popover-foreground: 222.2 84% 4.9%; /* hsl(222.2, 84%, 4.9%)*/
 
   /* Brand Colors - Vibrant Event Theme */
-  --primary: 259 94% 51%;  /* Vibrant purple */
-  --primary-foreground: 0 0% 100%;
-  --primary-glow: 282 100% 67%; /* Lighter purple for effects */
+  --primary: 259 94% 51%;  /* Vibrant hsl(259, 94%, 51%)*/
+  --primary-foreground: 0 0% 100%; /* hsl(0, 0%, 100%)*/
+  --primary-glow: 282 100% 67%; /*  hsl(282, 100%, 67%) for effects */
 
   /* Secondary Theme */
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
 
   /* Neutral System */
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted: 210 40% 96.1%; /* hsl(210, 40%, 96.1%)*/
+  --muted-foreground: 215.4 16.3% 46.9%; /* hsl(215.4, 16.3%, 46.9%)*/
+
 
   /* Accent Colors */
-  --accent: 330 81% 60%; /* Pink accent */
-  --accent-foreground: 0 0% 100%;
-  --accent-glow: 330 81% 70%;
+  --accent: 330 81% 60%; /* hsl(330, 81%, 60%)*/
+  --accent-foreground: 0 0% 100%; /* hsl(0, 0%, 100%)*/
+  --accent-glow: 330 81% 70%; /* hsl(330, 81%, 70%)*/
 
 
 
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: 27, 84%, 60%; /* oklch(0.577 0.245 27.325)*/
 
   /*Form Elements*/
   --border: 214.3 31.8% 91.4%;
@@ -172,7 +173,7 @@
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
 
-
+  
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 282 100% 67%;

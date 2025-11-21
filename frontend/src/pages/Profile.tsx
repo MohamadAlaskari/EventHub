@@ -278,7 +278,7 @@ const Profile = () => {
                                     <div className="flex items-center justify-between p-4 border border-destructive/20 rounded-lg bg-destructive/5 h-16">
                                         <div className="flex items-center space-x-2">
                                             <Trash2 className="h-4 w-4" />
-                                            <p className="text-sm font-medium">Delete Account</p>
+                                            <p className="text-sm font-medium ">Delete Account</p>
                                         </div>
                                         <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                                             <DialogTrigger asChild>
