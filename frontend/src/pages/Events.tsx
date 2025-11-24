@@ -1,20 +1,10 @@
 import EventCard from "@/components/EventCard";
+import EventFilters from "@/components/EventFilters";
 import { EventsPagination } from "@/components/EventsPagination";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEvents } from "@/hooks/useEvents";
 import { CountryCode } from "@/types/CountryCode";
@@ -35,7 +25,6 @@ const Events = () => {
     page,
   });
 
-  const countryCodes = Object.values(CountryCode);
 
   useEffect(() => {
     if (!events) return;
@@ -110,63 +99,15 @@ const Events = () => {
           ) : (
             <>
                 {/* search + filters */}
-                <div className="flex flex-col justify-between md:flex-row gap-3 sm:gap-4 mb-6">
-                    {/* search */}
-                    <div className="flex-2">
-                        <Input
-                            type="search"
-                            placeholder="Search events..."
-                            className="w-full"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="flex-1 flex flex-col gap-3 sm:flex-row sm:gap-4">
-                        {/* country */}
-                        <div className="flex-1 min-w-0">
-                            <Select value={selectedCountryCode} onValueChange={handleCountryChange}>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a Country" />
-                            </SelectTrigger>
-                            <SelectContent className="max-h-60 overflow-y-auto">
-                                <SelectGroup>
-                                <SelectLabel>Countries</SelectLabel>
-                                {countryCodes.map((code) => (
-                                    <SelectItem key={code} value={code}>
-                                    {code}
-                                    </SelectItem>
-                                ))}
-                                </SelectGroup>
-                            </SelectContent>
-                            </Select>
-                        </div>
-
-                        {/* category */}
-                        <div className="flex-1 min-w-0">
-                            <Select value={selectedCategory ?? ""} onValueChange={setSelectedCategory}>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a Category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup className="max-h-60 overflow-y-auto">
-                                <SelectLabel>Category</SelectLabel>
-                                {Array.from(new Set(events?.map((event) => event.segment) || [])).map(
-                                    (segment) => (
-                                    <SelectItem key={segment} value={segment}>
-                                        {segment}
-                                    </SelectItem>
-                                    )
-                                )}
-                                </SelectGroup>
-                            </SelectContent>
-                            </Select>
-                        </div>
-                    
-                    </div>
-                </div>
-
-              <Separator className="mb-6" />
+                    <EventFilters
+                        searchQuery={searchQuery}
+                        selectedCategory={selectedCategory}
+                        selectedCountryCode={selectedCountryCode}
+                        events={events}
+                        onSearchChange={setSearchQuery}
+                        onCountryChange={handleCountryChange}
+                        onCategoryChange={setSelectedCategory}
+                    />
 
               {/* if Events found */}
               {filteredEvents.length > 0 ? (
