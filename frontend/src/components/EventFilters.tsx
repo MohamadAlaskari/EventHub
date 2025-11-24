@@ -56,7 +56,7 @@ const EventFilters = ({
           {/* Country Filter */}
           <div className="flex-1 min-w-0">
             <Select value={selectedCountryCode} onValueChange={onCountryChange}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full" aria-label="Select Country">
                 <SelectValue placeholder="Select a Country" />
               </SelectTrigger>
               <SelectContent className="max-h-60 overflow-y-auto">
@@ -75,7 +75,7 @@ const EventFilters = ({
           {/* Category Filter */}
           <div className="flex-1 min-w-0">
             <Select value={selectedCategory ?? ""} onValueChange={onCategoryChange}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full" aria-label="Select Category">
                 <SelectValue placeholder="Select a Category" />
               </SelectTrigger>
               <SelectContent>
