@@ -21,11 +21,11 @@ import {
           <PaginationItem>
             <PaginationPrevious
               href="#"
+              aria-disabled={page === 0}
               onClick={(e) => {
                 e.preventDefault();
                 if (page > 0) onPageChange(page - 1);
               }}
-              className={page === 0 ? "pointer-events-none opacity-50" : ""}
             />
           </PaginationItem>
   
@@ -58,11 +58,11 @@ import {
           <PaginationItem>
             <PaginationNext
               href="#"
+              aria-disabled={page >= totalPages - 1}
               onClick={(e) => {
                 e.preventDefault();
                 if (page < totalPages - 1) onPageChange(page + 1);
               }}
-              className={page >= totalPages - 1 ? "pointer-events-none opacity-50" : ""}
             />
           </PaginationItem>
         </PaginationContent>
