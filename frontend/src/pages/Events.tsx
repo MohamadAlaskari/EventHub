@@ -10,7 +10,7 @@ import { useEvents } from "@/hooks/useEvents";
 import { CountryCode } from "@/types/CountryCode";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const Events = () => {
   const [page, setPage] = useState(0);
