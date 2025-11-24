@@ -34,7 +34,7 @@ export class MailService {
         const url = `${baseUrl}/auth/verify-email?token=${encodeURIComponent(token)}`;
         return this.sendMail({
             to,
-            subject: `${APP_NAME}: E-Mail bestätigen`,
+            subject: `${APP_NAME}: Confirm email address`,
             html: verificationEmailTemplate(username, url),
         });
     }
@@ -48,7 +48,7 @@ export class MailService {
         const resetUrl = `${baseUrl}/auth/reset-password?token=${encodeURIComponent(token)}`;
         return this.sendMail({
             to,
-            subject: `${APP_NAME}: Passwort zurücksetzen`,
+            subject: `${APP_NAME}: Reset password`,
             html: updatePasswordEmailTemplate(username, resetUrl),
         });
     }
@@ -60,7 +60,7 @@ export class MailService {
     ): Promise<void> {
         return this.sendMail({
             to,
-            subject: `Willkommen bei ${APP_NAME}, ${username}`,
+            subject: `Welcome to ${APP_NAME}, ${username}`,
             html: welcomeEmailTemplate(username, ctaUrl),
         });
     }

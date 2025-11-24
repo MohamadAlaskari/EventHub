@@ -15,7 +15,7 @@ export function welcomeEmailTemplate(
   <div style="font-family: Arial, sans-serif; background:${bg}; color:${text}; padding:24px;">
     <div style="max-width:600px; margin:0 auto; border:1px solid ${border}; border-radius:12px; overflow:hidden;">
       <div style="background:${primary}; color:#FFFFFF; padding:20px 24px;">
-        <h2 style="margin:0; font-size:22px;">Welcome to ${appName} 🎉</h2>
+        <h2 style="margin:0; font-size:22px;">Welcome to ${appName}</h2>
         <div style="margin-top:6px; font-size:12px; opacity:0.9;">
           by <a href="${brand.url}" style="color:#F5F3FF; text-decoration:underline;">${brand.name}</a>
         </div>
