@@ -1,4 +1,5 @@
 import EventCard from "@/components/EventCard";
+import { EventsPagination } from "@/components/EventsPagination";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
@@ -63,17 +64,7 @@ const Events = () => {
     setFilteredEvents(filtered);
   }, [events, searchQuery, selectedCategory]);
 
-  const handleNextPage = () => {
-    if (pageInfo && page < pageInfo.totalPages - 1) {
-      setPage((prev) => prev + 1);
-    }
-  };
 
-  const handlePrevPage = () => {
-    if (page > 0) {
-      setPage((prev) => prev - 1);
-    }
-  };
 
   const handleCountryChange = (value: string) => {
     setSelectedCountryCode(value as CountryCode);
@@ -208,61 +199,11 @@ const Events = () => {
                   {/* Pagination */}
                   {pageInfo && pageInfo.totalPages > 1 && (
                     <div className="mt-10">
-                      <Pagination>
-                        <PaginationContent>
-                          <PaginationItem>
-                            <PaginationPrevious
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handlePrevPage();
-                              }}
-                              className={page === 0 ? "pointer-events-none opacity-50" : ""}
-                            />
-                          </PaginationItem>
-
-                          {Array.from({ length: pageInfo.totalPages })
-                            .slice(Math.max(0, page - 1), Math.min(pageInfo.totalPages, page + 2))
-                            .map((_, idx) => {
-                              const pageNum = Math.max(0, page - 1) + idx;
-                              return (
-                                <PaginationItem key={pageNum}>
-                                  <PaginationLink
-                                    href="#"
-                                    isActive={pageNum === page}
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      setPage(pageNum);
-                                    }}
-                                  >
-                                    {pageNum + 1}
-                                  </PaginationLink>
-                                </PaginationItem>
-                              );
-                            })}
-
-                          {pageInfo.totalPages > 3 && (
-                            <PaginationItem>
-                              <PaginationEllipsis />
-                            </PaginationItem>
-                          )}
-
-                          <PaginationItem>
-                            <PaginationNext
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleNextPage();
-                              }}
-                              className={
-                                page >= pageInfo.totalPages - 1
-                                  ? "pointer-events-none opacity-50"
-                                  : ""
-                              }
-                            />
-                          </PaginationItem>
-                        </PaginationContent>
-                      </Pagination>
+                        <EventsPagination
+                            page={page}
+                            totalPages={pageInfo.totalPages}
+                            onPageChange={setPage}
+                        />
                     </div>
                   )}
                 </>
