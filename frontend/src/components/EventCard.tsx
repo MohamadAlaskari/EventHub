@@ -8,9 +8,10 @@ import { format } from 'date-fns';
 
 interface EventCardProps {
   event: Event;
+  isAboveTheFold?: boolean;
 }
 
-const EventCard = ({ event }: EventCardProps) => {
+const EventCard = ({ event, isAboveTheFold = false }: EventCardProps) => {
 
   // Safe date creation with fallback
   const createEventDate = () => {
@@ -32,13 +33,14 @@ const EventCard = ({ event }: EventCardProps) => {
         {/**Card image and overlay price and segment badge */}
         <div className="relative overflow-hidden">
             <img
-            src={eventImage?.url}
-            alt={event.name}
-            loading="lazy"
-            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-            onError={(e) => {
-                e.currentTarget.src = 'assets/images/placeholder.png';
-            }}
+              src={eventImage?.url}
+              alt={event.name}
+              loading={isAboveTheFold ? "eager" : "lazy"}
+              fetchPriority={isAboveTheFold ? "high" : "auto"}
+              decoding="async"
+              srcSet={`${eventImage?.url}?w=400 400w, ${eventImage?.url}?w=800 800w`}
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute top-3 left-3">
                 <Badge variant="secondary" className="bg-background/90 text-foreground shadow-soft">

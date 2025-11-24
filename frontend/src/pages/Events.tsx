@@ -121,8 +121,8 @@ const Events = () => {
                   </div>
 
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredEvents.map((event: Event) => (
-                      <EventCard key={event.id} event={event} />
+                    {filteredEvents.map((event: Event,idx) => (
+                      <EventCard key={event.id} event={event} isAboveTheFold={idx < 3}/>
                     ))}
                   </div>
 
