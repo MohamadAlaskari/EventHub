@@ -21,10 +21,6 @@ const Profile = () => {
     const {user, isAuthenticated, logout} = useAuth()
     const {favorites} = useFavorites()
     const {updateUser, deleteUser, isUpdating, isDeleting} = useUser()
-
-    console.log('User data:', user)
-    console.log('Country:', user?.country)
-    console.log('Country type:', typeof user?.country)
     
     const [isEditing, setIsEditing] = useState(false)
     const [editData, setEditData] = useState({
