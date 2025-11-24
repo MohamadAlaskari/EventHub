@@ -10,14 +10,13 @@ import { useEvents } from "@/hooks/useEvents";
 import { CountryCode } from "@/types/CountryCode";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const Events = () => {
   const [page, setPage] = useState(0);
   const [selectedCountryCode, setSelectedCountryCode] = useState<CountryCode>(CountryCode.DE);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
 
   const { events, isLoading, pageInfo } = useEvents({
     countryCode: selectedCountryCode,
@@ -26,23 +25,22 @@ const Events = () => {
   });
 
 
-  useEffect(() => {
-    if (!events) return;
-    
-    let filtered = events;
-
-    if (searchQuery.trim() !== "") {
-      filtered = filtered.filter((e) =>
-        e.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    if (selectedCategory) {
-      filtered = filtered.filter((e) => e.segment === selectedCategory);
-    }
-
-    setFilteredEvents(filtered);
+  const filteredEvents = useMemo(() => {
+    if (!events) return [];
+  
+    return events.filter((event) => {
+      const matchesSearch = searchQuery
+        ? event.name.toLowerCase().includes(searchQuery.toLowerCase())
+        : true;
+  
+      const matchesCategory = selectedCategory
+        ? event.segment === selectedCategory
+        : true;
+  
+      return matchesSearch && matchesCategory;
+    });
   }, [events, searchQuery, selectedCategory]);
+  
 
 
 
