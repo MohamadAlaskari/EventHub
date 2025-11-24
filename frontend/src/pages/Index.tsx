@@ -15,7 +15,16 @@ const Index = () => {
             />
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-hero min-h-[calc(100vh)] flex items-center">
-                <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40" style={{ backgroundImage: `url(${heroImage})` }} />
+                {/* <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40" style={{ backgroundImage: `url(${heroImage})` }} /> */}
+                <img
+                    src={heroImage}
+                    alt="Discover Amazing Events"
+                    loading="eager"
+                    fetchPriority="high" 
+                    width={1920}
+                    height={1080}
+                    className="absolute inset-0 w-full h-full object-cover opacity-40"
+                />
                 <div className="absolute inset-0 bg-gradient-hero opacity-90" />
                 <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="max-w-4xl mx-auto">

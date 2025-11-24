@@ -1,3 +1,4 @@
+import { useState, lazy,Suspense } from "react"
 import Layout from "@/components/Layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -7,12 +8,11 @@ import { useAuth } from "@/hooks/useAuth"
 import { useEventDetails } from "@/hooks/useEventDetails"
 import { useFavorites, useFavoriteStatus } from "@/hooks/useFavorites"
 import { ArrowLeft, Calendar, ExternalLink, Heart, MapPin, Share2 } from "lucide-react"
-import { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { toast } from "sonner"
 import { format } from 'date-fns';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import MapBox from "@/components/MapBox"
+const MapBox = lazy(() => import("@/components/MapBox"));
 
 
 const EventDetail = () => {
@@ -176,6 +176,8 @@ const EventDetail = () => {
           <img
             src={eventImage?.url}
             alt={event.name}
+            loading="lazy"
+            fetchPriority="low"
             className="w-full h-64 md:h-80 lg:h-96 object-cover"
             onError={(e) => {
               e.currentTarget.src = '/api/placeholder/800/400';
@@ -294,7 +296,9 @@ const EventDetail = () => {
 
                 {/* Map karte */}
                 <div className="aspect-video rounded-lg overflow-hidden bg-muted">
+                <Suspense fallback={<Skeleton className="h-full w-full" />}>
                   <MapBox lat={parseFloat(event.latitude)} long={parseFloat(event.longitude)}  zoom={15} height="100%" />
+                </Suspense>
                 </div> 
                 {/* Map Infos */}  
                 <div className="mt-4 text-sm text-muted-foreground">
