@@ -115,7 +115,6 @@ const Events = () => {
                         selectedCategory={selectedCategory}
                         selectedCountryCode={selectedCountryCode}
                         selectedDate={selectedDate}
-                        events={events}
                         onSearchInputChange={setSearchInput}
                         onSearch={handleSearch}
                         onCountryChange={handleCountryChange}

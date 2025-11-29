@@ -17,7 +17,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CountryCode } from "@/types/CountryCode";
-import type { Event } from "@/types/event";
 import { CalendarIcon, Search } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -27,7 +26,6 @@ interface EventFiltersProps {
   selectedCategory: string | null;
   selectedCountryCode: CountryCode;
   selectedDate: Date | undefined;
-  events: Event[] | undefined;
   onSearchInputChange: (value: string) => void;
   onSearch: () => void;
   onCountryChange: (value: string) => void;
@@ -40,7 +38,6 @@ const EventFilters = ({
   selectedCategory,
   selectedCountryCode,
   selectedDate,
-  events,
   onSearchInputChange,
   onSearch,
   onCountryChange,
@@ -49,7 +46,7 @@ const EventFilters = ({
 }: EventFiltersProps) => {
 
   const countryCodes = Object.values(CountryCode);
-  const categories = Array.from(new Set(events?.map((event) => event.segment) || []));
+  const categories = ["Music", "Miscellaneous", "Sports", "Arts & Theatre"];
 
   return (
     <>
