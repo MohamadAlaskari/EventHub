@@ -15,6 +15,7 @@ export class EventService {
   async getEvents(
     startDate?: string,
     countryCode?: string,
+    segmentName?: string,
     size?: number,
     page?: number,
   ): Promise<any> {
@@ -22,6 +23,7 @@ export class EventService {
       const params = {
         apikey: this.apiKey,
         countryCode: countryCode ?? 'DE',
+        segmentName: segmentName ?? '',
         startDateTime:
           new Date(startDate ?? new Date()).toISOString().split('.')[0] + 'Z',
         sort: 'date,asc',
@@ -30,7 +32,7 @@ export class EventService {
       };
 
       const response = await axios.get<any>(`${TICKETMASTER_BASE_URL}events.json`, { params });
-
+      console.log(`${TICKETMASTER_BASE_URL}events.json`, { params });
       if (!response.data._embedded?.events) {
         return {
           page: response.data.page,

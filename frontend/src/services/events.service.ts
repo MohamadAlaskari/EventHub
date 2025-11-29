@@ -10,6 +10,7 @@ export interface EventsApiResponse {
 export interface EventsApiParams {
   countryCode?: string;
   startDate?: string;
+  segment?: string;
   size?: number;
   page?: number;
 }
@@ -20,13 +21,14 @@ class EventsService {
         try {
             const queryParams = new URLSearchParams();
 
-
             // Nur hinzufügen, wenn vorhanden
             if (params.countryCode) queryParams.append("countryCode", params.countryCode);
             if (params.startDate) queryParams.append("startDate", params.startDate);
+            if (params.segment) queryParams.append("segmentName", params.segment);
             if (params.size) queryParams.append("size", params.size.toString());
             if (params.page) queryParams.append("page", params.page.toString());
                 
+            
             const res = await http.get<EventsApiResponse>(`${API_ENDPOINTS.EVENTS.LIST}?${queryParams}`)
 
     

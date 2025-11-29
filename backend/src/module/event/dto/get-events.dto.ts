@@ -11,6 +11,14 @@ export class GetEventsDto {
     @IsString()
     countryCode?: string;
 
+    @ApiPropertyOptional({
+        description: 'Segment',
+        example: 'Music',
+    })
+    @IsOptional()
+    @IsString()
+    segmentName?: string;
+
 
     @ApiPropertyOptional({
     description: 'Startdate im ISO 8601 Format (z.B. 2025-12-10)',

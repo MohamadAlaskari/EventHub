@@ -11,15 +11,22 @@ import { CountryCode } from "@/types/CountryCode";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
 import { useMemo, useState } from "react";
+import { format } from "date-fns";
 
 const Events = () => {
   const [page, setPage] = useState(0);
   const [selectedCountryCode, setSelectedCountryCode] = useState<CountryCode>(CountryCode.DE);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+
+  // Format date to YYYY-MM-DD format for backend
+  const formattedDate = selectedDate ? format(selectedDate, "yyyy-MM-dd") : undefined;
 
   const { events, isLoading, pageInfo } = useEvents({
     countryCode: selectedCountryCode,
+    segment: selectedCategory ?? undefined,
+    startDate: formattedDate,
     size: 15,
     page,
   });
@@ -28,18 +35,15 @@ const Events = () => {
   const filteredEvents = useMemo(() => {
     if (!events) return [];
   
+    // Nur noch clientseitige Suche, Kategorie-Filterung wird vom Backend übernommen
     return events.filter((event) => {
       const matchesSearch = searchQuery
         ? event.name.toLowerCase().includes(searchQuery.toLowerCase())
         : true;
   
-      const matchesCategory = selectedCategory
-        ? event.segment === selectedCategory
-        : true;
-  
-      return matchesSearch && matchesCategory;
+      return matchesSearch;
     });
-  }, [events, searchQuery, selectedCategory]);
+  }, [events, searchQuery]);
   
 
 
@@ -49,10 +53,21 @@ const Events = () => {
     setPage(0);
   };
 
+  const handleDateChange = (date: Date | undefined) => {
+    setSelectedDate(date);
+    setPage(0);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value || null);
+    setPage(0);
+  };
+
   const handleResetFilter = () => {
     setSelectedCountryCode(CountryCode.DE);
     setSearchQuery("");
     setSelectedCategory(null);
+    setSelectedDate(undefined);
     setPage(0);
   };
 
@@ -101,10 +116,12 @@ const Events = () => {
                         searchQuery={searchQuery}
                         selectedCategory={selectedCategory}
                         selectedCountryCode={selectedCountryCode}
+                        selectedDate={selectedDate}
                         events={events}
                         onSearchChange={setSearchQuery}
                         onCountryChange={handleCountryChange}
-                        onCategoryChange={setSelectedCategory}
+                        onCategoryChange={handleCategoryChange}
+                        onDateChange={handleDateChange}
                     />
 
               {/* if Events found */}
