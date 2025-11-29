@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin } from 'lucide-react';
 import type { Event } from '@/types/event';
 import { format } from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
 
 interface EventCardProps {
   event: Event;
@@ -12,6 +13,49 @@ interface EventCardProps {
 }
 
 const EventCard = ({ event, isAboveTheFold = false }: EventCardProps) => {
+  const [shouldLoad, setShouldLoad] = useState(isAboveTheFold);
+  const [isVisible, setIsVisible] = useState(isAboveTheFold);
+  const imgContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // If image is above the fold, load it immediately
+    if (isAboveTheFold) {
+      setShouldLoad(true);
+      setIsVisible(true);
+      return;
+    }
+
+    // Create Intersection Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // When image enters viewport
+            setShouldLoad(true);
+            // Small delay to show animation
+            setTimeout(() => setIsVisible(true), 50);
+            // Stop observing after loading
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        // Start loading 200px before image appears (preload)
+        rootMargin: '200px',
+        // threshold: 0.1 means when 10% of image is visible
+        threshold: 0.1,
+      }
+    );
+
+    if (imgContainerRef.current) {
+      observer.observe(imgContainerRef.current);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      observer.disconnect();
+    };
+  }, [isAboveTheFold]);
 
   // Safe date creation with fallback
   const createEventDate = () => {
@@ -31,29 +75,51 @@ const EventCard = ({ event, isAboveTheFold = false }: EventCardProps) => {
   return (
     <Card className="group hover:shadow-strong transition-all duration-300 hover:-translate-y-1 bg-gradient-card border-0 overflow-hidden">
         {/**Card image and overlay price and segment badge */}
-        <div className="relative overflow-hidden">
-            <img
-              src={eventImage?.url}
-              alt={event.name}
-              loading={isAboveTheFold ? "eager" : "lazy"}
-              fetchPriority={isAboveTheFold ? "high" : "auto"}
-              decoding="async"
-              srcSet={`${eventImage?.url}?w=400 400w, ${eventImage?.url}?w=800 800w`}
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute top-3 left-3">
-                <Badge variant="secondary" className="bg-background/90 text-foreground shadow-soft">
-                    {event.segment}
-                </Badge>
-            </div>
+        <div 
+          ref={imgContainerRef}
+          className="relative overflow-hidden bg-muted"
+        >
+            {shouldLoad ? (
+              <img
+                src={eventImage?.url}
+                alt={event.name}
+                loading={isAboveTheFold ? "eager" : "lazy"}
+                fetchPriority={isAboveTheFold ? "high" : "auto"}
+                decoding="async"
+                srcSet={`${eventImage?.url}?w=400 400w, ${eventImage?.url}?w=800 800w`}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className={`w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 ${
+                  isVisible ? 'opacity-100' : 'opacity-0'
+                }`}
+                onError={(e) => {
+                  // Fallback when image fails to load
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            ) : (
+              // Placeholder while waiting
+              <div className="w-full h-48 bg-muted animate-pulse flex items-center justify-center">
+                <Calendar className="h-8 w-8 text-muted-foreground/30" />
+              </div>
+            )}
+            
+            {/* Badges - only show when image is loaded */}
+            {shouldLoad && (
+              <>
+                <div className="absolute top-3 left-3">
+                    <Badge variant="secondary" className="bg-background/90 text-foreground shadow-soft">
+                        {event.segment}
+                    </Badge>
+                </div>
 
-            {event.minPrice && (
-            <div className="absolute top-3 right-3">
-                <Badge variant="outline" className="bg-success text-success-foreground border-success">
-                ${event.minPrice}
-                </Badge>
-            </div>
+                {event.minPrice && (
+                <div className="absolute top-3 right-3">
+                    <Badge variant="outline" className="bg-success text-success-foreground border-success">
+                    ${event.minPrice}
+                    </Badge>
+                </div>
+                )}
+              </>
             )}
         </div>
 
