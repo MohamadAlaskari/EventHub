@@ -190,6 +190,7 @@ const Profile = () => {
                                                 value={editData.email}
                                                 onChange={(e) => setEditData({...editData, email: e.target.value})}
                                                 placeholder="Enter your email"
+                                                disabled
                                             />
                                         </div>
                                         <div>

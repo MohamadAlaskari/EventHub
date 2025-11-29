@@ -61,11 +61,6 @@ const EventCard = ({ event, isAboveTheFold = false }: EventCardProps) => {
         <h3 className="text-lg font-semibold text-card-foreground group-hover:text-primary transition-colors duration-200 line-clamp-2">
           {event.name}
         </h3>
-        {event.description && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {event.description}
-          </p>
-        )}
       </CardHeader>
 
       <CardContent className="pt-0 space-y-3">
