@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "lucide-react"
 import { Link } from "react-router-dom"
 import heroImage from '@/assets/hero-events.jpg';
+import { useAuth } from "@/hooks/useAuth"
 
 const Index = () => {
+    const { isAuthenticated } = useAuth()
     return (
         <Layout>
             <SEO 
@@ -44,11 +46,13 @@ const Index = () => {
                                     <Calendar className="mr-2 h-5 w-5" /> Explore Events 
                                 </Button>
                             </Link>
-                            <Link to="/register">
-                                <Button variant="outline" size="xl" className="w-full sm:w-auto bg-background/10 text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/20">
-                                    Create Account
-                                </Button>
-                            </Link>
+                            {!isAuthenticated && (
+                                <Link to="/register">
+                                    <Button variant="outline" size="xl" className="w-full sm:w-auto bg-background/10 text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/20">
+                                        Create Account
+                                    </Button>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
