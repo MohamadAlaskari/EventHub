@@ -18,29 +18,31 @@ import {
 } from "@/components/ui/popover";
 import { CountryCode } from "@/types/CountryCode";
 import type { Event } from "@/types/event";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Search } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 interface EventFiltersProps {
-  searchQuery: string;
+  searchInput: string;
   selectedCategory: string | null;
   selectedCountryCode: CountryCode;
   selectedDate: Date | undefined;
   events: Event[] | undefined;
-  onSearchChange: (value: string) => void;
+  onSearchInputChange: (value: string) => void;
+  onSearch: () => void;
   onCountryChange: (value: string) => void;
   onCategoryChange: (value: string) => void;
   onDateChange: (date: Date | undefined) => void;
 }
 
 const EventFilters = ({
-  searchQuery,
+  searchInput,
   selectedCategory,
   selectedCountryCode,
   selectedDate,
   events,
-  onSearchChange,
+  onSearchInputChange,
+  onSearch,
   onCountryChange,
   onCategoryChange,
   onDateChange,
@@ -54,14 +56,28 @@ const EventFilters = ({
       <div className="flex flex-col justify-between md:flex-row gap-3 sm:gap-4 mb-6">
         
         {/* Search Input */}
-        <div className="flex-1">
+        <div className="flex-1 relative">
           <Input
-            type="search"
+            type="text"
             placeholder="Search events..."
-            className="w-full"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
+            className="w-full pr-10"
+            value={searchInput}
+            onChange={(e) => onSearchInputChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onSearch();
+              }
+            }}
           />
+          <Button
+            type="button"
+            size="icon"
+            className="absolute right-0 top-0 h-full rounded-l-none"
+            onClick={onSearch}
+            aria-label="Search"
+          >
+            <Search className="h-4 w-4" />
+          </Button>
         </div>
 
         {/* Filters */}

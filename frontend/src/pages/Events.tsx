@@ -10,12 +10,13 @@ import { useEvents } from "@/hooks/useEvents";
 import { CountryCode } from "@/types/CountryCode";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { format } from "date-fns";
 
 const Events = () => {
   const [page, setPage] = useState(0);
   const [selectedCountryCode, setSelectedCountryCode] = useState<CountryCode>(CountryCode.DE);
+  const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -27,23 +28,14 @@ const Events = () => {
     countryCode: selectedCountryCode,
     segment: selectedCategory ?? undefined,
     startDate: formattedDate,
+    keyword: searchQuery,
     size: 15,
     page,
   });
 
 
-  const filteredEvents = useMemo(() => {
-    if (!events) return [];
-  
-    // Nur noch clientseitige Suche, Kategorie-Filterung wird vom Backend übernommen
-    return events.filter((event) => {
-      const matchesSearch = searchQuery
-        ? event.name.toLowerCase().includes(searchQuery.toLowerCase())
-        : true;
-  
-      return matchesSearch;
-    });
-  }, [events, searchQuery]);
+  // Suche wird jetzt im Backend gemacht, keine clientseitige Filterung mehr nötig
+  const filteredEvents = events || [];
   
 
 
@@ -63,8 +55,14 @@ const Events = () => {
     setPage(0);
   };
 
+  const handleSearch = () => {
+    setSearchQuery(searchInput);
+    setPage(0);
+  };
+
   const handleResetFilter = () => {
     setSelectedCountryCode(CountryCode.DE);
+    setSearchInput("");
     setSearchQuery("");
     setSelectedCategory(null);
     setSelectedDate(undefined);
@@ -113,12 +111,13 @@ const Events = () => {
             <>
                 {/* search + filters */}
                     <EventFilters
-                        searchQuery={searchQuery}
+                        searchInput={searchInput}
                         selectedCategory={selectedCategory}
                         selectedCountryCode={selectedCountryCode}
                         selectedDate={selectedDate}
                         events={events}
-                        onSearchChange={setSearchQuery}
+                        onSearchInputChange={setSearchInput}
+                        onSearch={handleSearch}
                         onCountryChange={handleCountryChange}
                         onCategoryChange={handleCategoryChange}
                         onDateChange={handleDateChange}

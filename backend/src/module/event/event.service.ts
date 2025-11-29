@@ -16,6 +16,7 @@ export class EventService {
     startDate?: string,
     countryCode?: string,
     segmentName?: string,
+    keyword?: string,
     size?: number,
     page?: number,
   ): Promise<any> {
@@ -24,6 +25,7 @@ export class EventService {
         apikey: this.apiKey,
         countryCode: countryCode ?? 'DE',
         segmentName: segmentName ?? '',
+        keyword: keyword ?? '',
         startDateTime:
           new Date(startDate ?? new Date()).toISOString().split('.')[0] + 'Z',
         sort: 'date,asc',

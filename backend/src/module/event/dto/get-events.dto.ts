@@ -19,6 +19,14 @@ export class GetEventsDto {
     @IsString()
     segmentName?: string;
 
+    @ApiPropertyOptional({
+        description: 'keyword (e.g.  Adel,Party, Free, Theater, etc.)',
+        example: 'Adel',
+    })
+    @IsOptional()
+    @IsString()
+    keyword?: string;
+
 
     @ApiPropertyOptional({
     description: 'Startdate im ISO 8601 Format (z.B. 2025-12-10)',

@@ -16,6 +16,7 @@ export class EventController {
   @ApiQuery({ name: 'startDate', description: 'Start Date' })
   @ApiQuery({ name: 'countryCode', description: 'Country Code' })
   @ApiQuery({ name: 'segmentName', description: 'segmentName (e.g. Music, Sport, etc.)' })
+  @ApiQuery({ name: 'keyword', description: 'keyword (e.g.  Adel,Party, Free, Theater, etc.)' })
   @ApiQuery({ name: 'size', description: 'Size' })
   @ApiQuery({ name: 'page', description: 'Page' })
 
@@ -25,6 +26,7 @@ export class EventController {
       query.startDate,
       query.countryCode,
       query.segmentName,
+      query.keyword,
       query.size,
       query.page,);
   }

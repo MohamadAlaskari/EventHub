@@ -11,6 +11,7 @@ export interface EventsApiParams {
   countryCode?: string;
   startDate?: string;
   segment?: string;
+  keyword?: string;
   size?: number;
   page?: number;
 }
@@ -25,6 +26,7 @@ class EventsService {
             if (params.countryCode) queryParams.append("countryCode", params.countryCode);
             if (params.startDate) queryParams.append("startDate", params.startDate);
             if (params.segment) queryParams.append("segmentName", params.segment);
+            if (params.keyword) queryParams.append("keyword", params.keyword);
             if (params.size) queryParams.append("size", params.size.toString());
             if (params.page) queryParams.append("page", params.page.toString());
                 
