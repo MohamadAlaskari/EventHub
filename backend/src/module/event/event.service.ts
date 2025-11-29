@@ -34,7 +34,7 @@ export class EventService {
       };
 
       const response = await axios.get<any>(`${TICKETMASTER_BASE_URL}events.json`, { params });
-      console.log(`${TICKETMASTER_BASE_URL}events.json`, { params });
+
       if (!response.data._embedded?.events) {
         return {
           page: response.data.page,
