@@ -26,10 +26,7 @@ export class AuthService {
     const createdUser =await this.userService.create(signupDto);
 
     const emailVerifyToken:EmailVerifyTokenType  = await this.signEmailVerifyToken(createdUser.id)
-    const baseUrl = 
-    this.configService.get<string>('FRONTEND_URL') ?? 
-    this.configService.get<string>('API_BASE_URL') ?? 
-    'http://localhost:3000';
+    const baseUrl = this.configService.get<string>('API_Backend_URL') ?? 'http://localhost:3000';
 
     await this.mailService.sendVerificationEmail(
       createdUser.email, 
