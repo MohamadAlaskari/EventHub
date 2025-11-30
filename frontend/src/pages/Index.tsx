@@ -1,13 +1,17 @@
 import Layout from "@/components/Layout"
 import SEO from "@/components/SEO"
 import { Button } from "@/components/ui/button"
-import { Calendar } from "lucide-react"
+import FeatureCard from "@/components/FeatureCard"
+import HowItWorksStep from "@/components/HowItWorksStep"
+import { Calendar, ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import heroImage from '@/assets/hero-events.jpg';
 import { useAuth } from "@/hooks/useAuth"
+import { features, steps } from "@/constants/landing"
 
 const Index = () => {
     const { isAuthenticated } = useAuth()
+
     return (
         <Layout>
             <SEO 
@@ -54,6 +58,67 @@ const Index = () => {
                                 </Link>
                             )}
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Features Section */}
+            <section className="py-20 bg-background">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+                            Why <span className="bg-gradient-primary bg-clip-text text-transparent">EventHub?</span>
+                        </h2>
+                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                            Discover the best events near you with our innovative features
+                        </p>
+                    </div>
+                    {/* Features Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {features.map((feature, index) => (
+                            <FeatureCard
+                                key={index}
+                                icon={feature.icon}
+                                title={feature.title}
+                                description={feature.description}
+                                gradientType={feature.gradientType}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* How It Works Section */}
+            <section className="py-20 bg-gradient-to-b from-background to-muted/30">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+                            How It <span className="bg-gradient-accent bg-clip-text text-transparent">Works</span>
+                        </h2>
+                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                            In three simple steps to your perfect event
+                        </p>
+                    </div>
+
+                    {/* How It Works Steps */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        {steps.map((step) => (
+                            <HowItWorksStep
+                                key={step.stepNumber}
+                                stepNumber={step.stepNumber}
+                                title={step.title}
+                                description={step.description}
+                                gradientType={step.gradientType}
+                            />
+                        ))}
+                    </div>
+                    <div className="text-center mt-12">
+                        <Link to="/events">
+                            <Button variant="accent" size="lg" className="group">
+                                Discover Events Now
+                                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </section>
