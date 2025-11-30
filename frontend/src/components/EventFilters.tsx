@@ -68,8 +68,7 @@ const EventFilters = ({
           />
           <Button
             type="button"
-            size="icon"
-            className="absolute right-0 top-0 h-full rounded-l-none"
+            className="absolute right-0 top-0 h-9 w-9 rounded-l-none"
             onClick={onSearch}
             aria-label="Search"
           >
