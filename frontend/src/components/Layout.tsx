@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from "@vercel/analytics/react";
 
 
 
