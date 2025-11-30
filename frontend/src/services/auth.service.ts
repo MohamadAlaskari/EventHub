@@ -58,7 +58,17 @@ class AuthService {
   
     async refreshAccessToken() : Promise<AuthResponse>{
         try {
-            const res = await httpAuth.post<AuthResponse>(API_ENDPOINTS.AUTH.REFRESH);
+            // Get refresh token from storage
+            const refreshToken = secureStorage.getItem(AUTH_CONFIG.REFRESH_TOKEN_KEY);
+            if (!refreshToken) {
+                throw new Error('No refresh token available');
+            }
+
+            // Use http (not httpAuth) since we don't have a valid access token yet
+            // Send refreshToken in the request body as expected by the backend
+            const res = await http.post<AuthResponse>(API_ENDPOINTS.AUTH.REFRESH, { 
+                refreshToken 
+            });
             const authresponse: AuthResponse = res.data;
 
             // Save tokens to Local Storage

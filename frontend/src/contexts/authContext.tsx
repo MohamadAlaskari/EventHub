@@ -2,6 +2,8 @@ import { authService } from "@/services/auth.service";
 import type { AuthState, LoginCredentials, RegisterCredetials } from "@/types/auth";
 import React, { useCallback, useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
+import { setRefreshTokenExpiredCallback } from "@/config/tokenInterceptor";
+import { RefreshTokenExpiredDialog } from "@/components/RefreshTokenExpiredDialog";
 
 
 // Interface defining the context type with authentication methods
@@ -10,6 +12,10 @@ interface AuthContextType extends AuthState {
   register: (userData: RegisterCredetials) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  isRefreshTokenExpired: boolean;
+  handleRefreshTokenExpired: () => void;
+  handleRefreshToken: () => Promise<void>;
+  dismissRefreshTokenDialog: () => void;
 }
 
 // Creating the context with the AuthContextType interface
@@ -30,6 +36,7 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
         isAuthenticated: false,
         isLoading: true,
     })
+    const [isRefreshTokenExpired, setIsRefreshTokenExpired] = useState(false);
 
     /**
    * Initialize authentication state on component mount
@@ -64,6 +71,17 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
             initializeAuth();
 
     }, [] )
+
+    // Set up callback for refresh token expiration
+    useEffect(() => {
+        setRefreshTokenExpiredCallback(() => {
+            setIsRefreshTokenExpired(true);
+        });
+
+        return () => {
+            setRefreshTokenExpiredCallback(null);
+        };
+    }, []);
 
 
     // Login user
@@ -158,18 +176,54 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
             throw error;
         }
     }, [])
+
+    // Handle refresh token expiration
+    const handleRefreshTokenExpired = useCallback(() => {
+        setIsRefreshTokenExpired(true);
+    }, []);
+
+    // Handle refresh token attempt
+    const handleRefreshToken = useCallback(async () => {
+        try {
+            setIsRefreshTokenExpired(false);
+            await authService.refreshAccessToken();
+            const user = await authService.getCurrentUser();
+            setAuthState({
+                user,
+                isAuthenticated: true,
+                isLoading: false,
+            });
+            toast.success('Session refreshed successfully');
+        } catch (error) {
+            console.error('Failed to refresh token:', error);
+            setIsRefreshTokenExpired(true);
+            toast.error('Failed to refresh session', {
+                description: 'Please log in again',
+            });
+        }
+    }, []);
+
+    // Dismiss refresh token dialog
+    const dismissRefreshTokenDialog = useCallback(() => {
+        setIsRefreshTokenExpired(false);
+    }, []);
     
   const contextValue : AuthContextType = {
       ...authState,
       login,
       register,
       logout,
-      refreshUser
+      refreshUser,
+      isRefreshTokenExpired,
+      handleRefreshTokenExpired,
+      handleRefreshToken,
+      dismissRefreshTokenDialog,
   }
 
     return (
         <AuthContext.Provider value={contextValue}>
             {children}
+            <RefreshTokenExpiredDialog />
         </AuthContext.Provider>
     );
 
