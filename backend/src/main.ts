@@ -13,7 +13,8 @@ async function bootstrap() {
 
 
   // Enable CORS for all origins 
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || 'http://localhost:5173',  });
 
   // activate global HTTP exception filter 
   app.useGlobalFilters(new GlobalExceptionFilter());
