@@ -9,11 +9,23 @@ import { AuthModule } from './module/auth/auth.module';
 import { EventModule } from './module/event/event.module';
 import { FavoriteModule } from './module/favorite/favorite.module';
 import { MailModule } from './module/mail/mail.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 
 
 @Module({
   imports: [
+
+    // Throttler Configuration for rate limiting
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
     
     // Environment Variables Configuration
     ConfigModule.forRoot({
@@ -39,7 +51,13 @@ import { MailModule } from './module/mail/mail.module';
   
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService, 
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+],
 })
 export class AppModule {}
 
