@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
-import Layout from '@/components/Layout';
 import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -80,7 +79,7 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+    <>
       <SEO 
         title="Login - EventHub"
         description="Sign in to your EventHub account to manage and discover events"
@@ -186,7 +185,7 @@ const Login = () => {
           </Card>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 
