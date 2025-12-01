@@ -80,7 +80,7 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+    <>
       <SEO 
         title="Login - EventHub"
         description="Sign in to your EventHub account to manage and discover events"
@@ -186,7 +186,7 @@ const Login = () => {
           </Card>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 
