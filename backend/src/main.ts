@@ -7,6 +7,7 @@ import { join } from 'path';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './common/filters/glopal-Exception.filter';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,9 @@ async function bootstrap() {
   
   // activate validation globally for all incoming requests 
   app.useGlobalPipes(new ValidationPipe());
+
+  // helmet for security headers
+  app.use(helmet());
   
   // Swagger setup for API documentation
   setupSwagger(app);
