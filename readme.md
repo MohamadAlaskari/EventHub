@@ -73,63 +73,213 @@ EventsHub is a complete event management solution consisting of a modern React f
 
 ```
 EventHub/
-├── frontend/                 # React frontend application
+├── frontend/                          # React frontend application
 │   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   │   ├── ui/         # Base UI components (Radix UI)
+│   │   ├── components/                # Reusable UI components
+│   │   │   ├── ui/                    # Base UI components (Radix UI)
+│   │   │   │   ├── avatar.tsx
+│   │   │   │   ├── badge.tsx
+│   │   │   │   ├── button.tsx
+│   │   │   │   ├── calendar.tsx
+│   │   │   │   ├── card.tsx
+│   │   │   │   ├── dialog.tsx
+│   │   │   │   ├── dropdown-menu.tsx
+│   │   │   │   ├── input.tsx
+│   │   │   │   ├── label.tsx
+│   │   │   │   ├── navigation-menu.tsx
+│   │   │   │   ├── pagination.tsx
+│   │   │   │   ├── popover.tsx
+│   │   │   │   ├── select.tsx
+│   │   │   │   ├── separator.tsx
+│   │   │   │   ├── skeleton.tsx
+│   │   │   │   └── sonner.tsx
+│   │   │   ├── AuthRequired.tsx
 │   │   │   ├── EventCard.tsx
+│   │   │   ├── EventFilters.tsx
+│   │   │   ├── EventsPagination.tsx
 │   │   │   ├── FavoriteEventCard.tsx
-│   │   │   ├── Layout.tsx
-│   │   │   ├── Header.tsx
+│   │   │   ├── FeatureCard.tsx
 │   │   │   ├── Footer.tsx
+│   │   │   ├── Header.tsx
+│   │   │   ├── HowItWorksStep.tsx
+│   │   │   ├── Layout.tsx
 │   │   │   ├── MapBox.tsx
-│   │   │   └── ...
-│   │   ├── pages/          # Page components
-│   │   │   ├── Events.tsx
+│   │   │   ├── QuickStatCard.tsx
+│   │   │   └── SEO.tsx
+│   │   ├── pages/                     # Page components
 │   │   │   ├── EventDetail.tsx
+│   │   │   ├── Events.tsx
 │   │   │   ├── Favorites.tsx
-│   │   │   ├── Profile.tsx
+│   │   │   ├── Index.tsx
 │   │   │   ├── Login.tsx
-│   │   │   ├── Register.tsx
-│   │   │   └── ...
-│   │   ├── hooks/          # Custom React hooks
+│   │   │   ├── NotFound.tsx
+│   │   │   ├── Profile.tsx
+│   │   │   └── Register.tsx
+│   │   ├── hooks/                     # Custom React hooks
 │   │   │   ├── useAuth.ts
+│   │   │   ├── useEventDetails.ts
 │   │   │   ├── useEvents.ts
 │   │   │   ├── useFavorites.ts
-│   │   │   └── ...
-│   │   ├── services/       # API service functions
-│   │   ├── types/          # TypeScript type definitions
-│   │   ├── contexts/       # React contexts
-│   │   ├── config/         # Configuration files
-│   │   └── constants/      # Application constants
-│   ├── Dockerfile          # Frontend Docker configuration
-│   └── package.json
-├── backend/                 # NestJS backend API
+│   │   │   └── useUser.ts
+│   │   ├── services/                  # API service functions
+│   │   │   ├── auth.service.ts
+│   │   │   ├── event-details.servic.ts
+│   │   │   ├── events.service.ts
+│   │   │   ├── favorites.service.ts
+│   │   │   └── user.service.ts
+│   │   ├── types/                     # TypeScript type definitions
+│   │   │   ├── auth.ts
+│   │   │   ├── CountryCode.ts
+│   │   │   ├── event.ts
+│   │   │   └── user.ts
+│   │   ├── contexts/                   # React contexts
+│   │   │   └── authContext.tsx
+│   │   ├── config/                     # Configuration files
+│   │   │   ├── api.ts
+│   │   │   └── tokenInterceptor.ts
+│   │   ├── constants/                  # Application constants
+│   │   │   ├── auth.ts
+│   │   │   ├── endpoints.ts
+│   │   │   └── landing.ts
+│   │   ├── schemas/                    # Validation schemas
+│   │   │   └── user.ts
+│   │   ├── lib/                        # Utility libraries
+│   │   │   ├── storage.ts
+│   │   │   └── utils.ts
+│   │   ├── assets/                     # Static assets
+│   │   │   ├── hero-events.jpg
+│   │   │   └── react.svg
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── AppRoutes.tsx
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   └── vite-env.d.ts
+│   ├── public/                         # Public static files
+│   │   ├── robots.txt
+│   │   ├── sitemap.xml
+│   │   └── vite.svg
+│   ├── dist/                           # Build output directory
+│   ├── node_modules/                   # Dependencies
+│   ├── .gitignore
+│   ├── components.json                 # shadcn/ui components config
+│   ├── Dockerfile                      # Frontend Docker configuration
+│   ├── eslint.config.js                # ESLint configuration
+│   ├── index.html                      # HTML entry point
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   ├── tsconfig.app.json                # TypeScript config for app
+│   ├── tsconfig.json                    # TypeScript base config
+│   ├── tsconfig.node.json               # TypeScript config for node
+│   ├── vercel.json                      # Vercel deployment config
+│   └── vite.config.ts                   # Vite configuration
+├── backend/                             # NestJS backend API
 │   ├── src/
-│   │   ├── module/         # Feature modules
-│   │   │   ├── auth/       # Authentication module
+│   │   ├── module/                      # Feature modules
+│   │   │   ├── auth/                    # Authentication module
+│   │   │   │   ├── dto/                 # Data Transfer Objects
+│   │   │   │   │   ├── refresh.dto.ts
+│   │   │   │   │   ├── signin.dto.ts
+│   │   │   │   │   └── signup.dto.ts
+│   │   │   │   ├── guards/              # Authentication guards
+│   │   │   │   │   ├── jwt-auth.guard.ts
+│   │   │   │   │   └── local-auth.guard.ts
+│   │   │   │   ├── strategies/          # Passport strategies
+│   │   │   │   │   ├── jwt.strategy.ts
+│   │   │   │   │   └── local.strategy.ts
 │   │   │   │   ├── auth.controller.ts
-│   │   │   │   ├── auth.service.ts
-│   │   │   │   ├── guards/     # JWT and Local auth guards
-│   │   │   │   ├── strategies/ # JWT and Local strategies
-│   │   │   │   └── dto/        # Auth DTOs
-│   │   │   ├── event/      # Event management module
-│   │   │   ├── favorite/   # Favorites system module
-│   │   │   ├── user/       # User management module
-│   │   │   └── mail/       # Email service module
-│   │   ├── common/         # Shared utilities
-│   │   │   ├── decorators/ # Custom decorators
-│   │   │   ├── filters/    # Exception filters
-│   │   │   └── utils/      # Utility functions
-│   │   ├── config/         # Configuration files
-│   │   ├── db/            # Database configuration
-│   │   └── main.ts        # Application entry point
-│   ├── test/              # E2E tests
-│   ├── Dockerfile         # Backend Docker configuration
-│   ├── vercel.json        # Vercel deployment config
-│   └── package.json
-├── docker-compose.yml     # Docker Compose configuration
-└── README.md            # This file
+│   │   │   │   ├── auth.module.ts
+│   │   │   │   └── auth.service.ts
+│   │   │   ├── event/                   # Event management module
+│   │   │   │   ├── dto/                 # Event DTOs
+│   │   │   │   │   └── get-events.dto.ts
+│   │   │   │   ├── event.controller.ts
+│   │   │   │   ├── event.module.ts
+│   │   │   │   └── event.service.ts
+│   │   │   ├── favorite/                # Favorites system module
+│   │   │   │   ├── dto/                 # Favorite DTOs
+│   │   │   │   │   ├── create-favorite.dto.ts
+│   │   │   │   │   └── update-favorite.dto.ts
+│   │   │   │   ├── entities/            # Database entities
+│   │   │   │   │   └── favorite.entity.ts
+│   │   │   │   ├── favorite.controller.ts
+│   │   │   │   ├── favorite.module.ts
+│   │   │   │   └── favorite.service.ts
+│   │   │   ├── user/                    # User management module
+│   │   │   │   ├── dto/                 # User DTOs
+│   │   │   │   │   ├── create-user.dto.ts
+│   │   │   │   │   └── update-user.dto.ts
+│   │   │   │   ├── entities/            # Database entities
+│   │   │   │   │   └── user.entity.ts
+│   │   │   │   ├── enum/                # Enumerations
+│   │   │   │   │   └── CountryCode.enum.ts
+│   │   │   │   ├── user.controller.ts
+│   │   │   │   ├── user.module.ts
+│   │   │   │   └── user.service.ts
+│   │   │   ├── mail/                    # Email service module
+│   │   │   │   ├── templates/           # Email templates
+│   │   │   │   │   ├── updatePasswordEmail.template.ts
+│   │   │   │   │   ├── verification.template.ts
+│   │   │   │   │   └── welcome.template.ts
+│   │   │   │   ├── types/               # Mail types
+│   │   │   │   │   └── mailOption.type.ts
+│   │   │   │   ├── mail.module.ts
+│   │   │   │   └── mail.service.ts
+│   │   │   ├── redis/                   # Redis cache module
+│   │   │   │   ├── redis.module.ts
+│   │   │   │   └── redis.service.ts
+│   │   │   └── feature/                 # Feature module (placeholder)
+│   │   │       ├── dto/                 # Feature DTOs (empty)
+│   │   │       └── entities/            # Feature entities (empty)
+│   │   ├── common/                      # Shared utilities
+│   │   │   ├── decorators/              # Custom decorators
+│   │   │   │   └── api-error-responses.decorator.ts
+│   │   │   ├── filters/                 # Exception filters
+│   │   │   │   └── glopal-Exception.filter.ts
+│   │   │   └── utils/                   # Utility functions
+│   │   │       ├── constants/           # Application constants
+│   │   │       │   └── event.constant.ts
+│   │   │       ├── types/               # Common types
+│   │   │       │   └── types.ts
+│   │   │       └── app-config.service.ts
+│   │   ├── config/                      # Configuration files
+│   │   │   └── swagger.config.ts
+│   │   ├── db/                          # Database configuration
+│   │   │   └── config/
+│   │   │       └── db.config.ts
+│   │   ├── scripts/                     # Utility scripts (empty)
+│   │   ├── app.controller.ts
+│   │   ├── app.module.ts
+│   │   ├── app.service.ts
+│   │   └── main.ts                      # Application entry point
+│   ├── test/                            # E2E tests
+│   │   ├── app.e2e-spec.ts
+│   │   └── jest-e2e.json
+│   ├── doco/                            # Documentation
+│   │   ├── backend_architecture_report.md
+│   │   ├── EventHub_Academic_Reportcopy.md
+│   │   ├── EventsHub_Backend_Academic_Report.md
+│   │   ├── finalReport.md
+│   │   ├── README_AUTH.md
+│   │   └── REDIS_SETUP.md
+│   ├── dist/                            # Build output directory
+│   ├── node_modules/                    # Dependencies
+│   ├── .gitignore
+│   ├── .prettierrc                      # Prettier configuration
+│   ├── Dockerfile                       # Backend Docker configuration
+│   ├── eslint.config.mjs                # ESLint configuration
+│   ├── nest-cli.json                    # NestJS CLI configuration
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   ├── tsconfig.build.json              # TypeScript build config
+│   ├── tsconfig.json                    # TypeScript base config
+│   └── vercel.json                      # Vercel deployment config
+|
+├── .gitignore                           # Root gitignore
+├── docker-compose.yml                   # Docker Compose configuration
+├── readme.md                            # This file (main README)
 ```
 
 ---
