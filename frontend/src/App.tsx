@@ -4,6 +4,7 @@ import AppRoutes from './AppRoutes'
 import { AuthProvider } from './contexts/authContext'
 import { Toaster } from './components/ui/sonner'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Analytics } from '@vercel/analytics/react'
 
 function App() {
   const queryClient = new QueryClient({
@@ -22,6 +23,7 @@ function App() {
       <AuthProvider>
         <Toaster />
         <AppRoutes />
+        <Analytics />
       </AuthProvider>
     </BrowserRouter>
     </QueryClientProvider>
