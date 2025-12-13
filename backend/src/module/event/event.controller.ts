@@ -13,12 +13,13 @@ export class EventController {
 
   @Get("events")
   @ApiOperation({ summary: 'Get events by Country Code and Date and Size and Page but all this Options are optional' })
-  @ApiQuery({ name: 'startDate', description: 'Start Date' })
-  @ApiQuery({ name: 'countryCode', description: 'Country Code' })
-  @ApiQuery({ name: 'segmentName', description: 'segmentName (e.g. Music, Sport, etc.)' })
-  @ApiQuery({ name: 'keyword', description: 'keyword (e.g.  Adel,Party, Free, Theater, etc.)' })
-  @ApiQuery({ name: 'size', description: 'Size' })
-  @ApiQuery({ name: 'page', description: 'Page' })
+  @ApiQuery({ name: 'countryCode', description: 'Country Code', required: false })
+  @ApiQuery({ name: 'segmentName', description: 'Segment', required: false })
+  @ApiQuery({ name: 'keyword', description: 'Keyword', required: false })
+  @ApiQuery({ name: 'startDate', description: 'Start Date', required: false })
+  @ApiQuery({ name: 'size', description: 'Size', required: false })
+  @ApiQuery({ name: 'page', description: 'Page', required: false })
+  
 
   getEventsByLocation(@Query() query: GetEventsDto) {
     
