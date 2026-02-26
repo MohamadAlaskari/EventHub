@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Favorites from "./pages/Favorites";
+import GoogleAuthCallback from "./pages/GoogleAuthCallback";
 
 const AppRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/auth/google/callback" element={<GoogleAuthCallback />} />
         <Route path="*" element={<NotFound/>} />
         
     </Routes>

@@ -40,6 +40,15 @@ export class AuthService {
    
   }
   
+  async googleLogin(user: any): Promise<Tokens> {
+    return this.issueTokens({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      isEmailVerified: user.isEmailVerified,
+    });
+  }
+
   async login(user: any): Promise<Tokens> {
     
     this.mailService.sendWelcomeEmail(user.email, user.name);
@@ -95,6 +104,7 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
     if (!user) return null;
+    if (!user.password) return null; // Google-only account
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) return null;
 

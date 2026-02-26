@@ -11,6 +11,7 @@ import { AppConfigService } from '../../common/utils/app-config.service';
 import { MailModule } from '../mail/mail.module';
 import { MailService } from '../mail/mail.service';
 import { RedisModule } from '../redis/redis.module';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
@@ -30,6 +31,6 @@ import { RedisModule } from '../redis/redis.module';
     RedisModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy,MailService ,AppConfigService ],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, MailService, AppConfigService, ConfigService],
 })
 export class AuthModule {}

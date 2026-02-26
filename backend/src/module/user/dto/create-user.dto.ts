@@ -16,10 +16,10 @@ export class CreateUserDto {
     email: string;
 
 
-    @ApiProperty({example: 'password123', description: 'The password of the user', minLength: 5})
-    @IsNotEmpty()
+    @ApiProperty({example: 'password123', description: 'The password of the user', minLength: 5, required: false})
+    @IsOptional()
     @MinLength(5)
-    password: string;
+    password?: string;
 
     @ApiProperty({
     example: "DE",

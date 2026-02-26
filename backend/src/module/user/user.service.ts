@@ -19,13 +19,44 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
      
       // Hash password before saving to database using bcrypt 
-      const hashedPassword = await this.hashPassword(createUserDto.password);
+      const hashedPassword = createUserDto.password
+        ? await this.hashPassword(createUserDto.password)
+        : undefined;
       
       // Create new user with hashed password
       const user = this.userRepository.create({ ...createUserDto, password: hashedPassword });
     
       // Save user to database
       return this.userRepository.save(user);
+  }
+
+  async findOrCreateGoogleUser(googleProfile: {
+    googleId: string;
+    email: string;
+    name: string;
+  }): Promise<User> {
+    // Try to find by googleId first
+    let user = await this.userRepository.findOne({ where: { googleId: googleProfile.googleId } });
+    if (user) return user;
+
+    // Try to find by email (account linking)
+    user = await this.userRepository.findOne({ where: { email: googleProfile.email } });
+    if (user) {
+      // Link the Google account
+      await this.userRepository.update(user.id, { googleId: googleProfile.googleId });
+      const linked = await this.userRepository.findOne({ where: { id: user.id } });
+      if (!linked) throw new Error('Failed to link Google account');
+      return linked;
+    }
+
+    // Create a new user
+    const newUser = this.userRepository.create({
+      googleId: googleProfile.googleId,
+      email: googleProfile.email,
+      name: googleProfile.name,
+      isEmailVerified: true,
+    });
+    return this.userRepository.save(newUser);
   }
 
   // Hash password using bcrypt

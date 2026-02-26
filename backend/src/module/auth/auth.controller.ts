@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Request, Get, Query } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Request, Get, Query, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AccessTokentype } from '../../common/utils/types/types';
 import { SignupDto } from './dto/signup.dto';
@@ -9,10 +9,16 @@ import { SigninDto } from './dto/signin.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { RefreshDto } from './dto/refresh.dto';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { ConfigService } from '@nestjs/config';
+import type { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
 
   
@@ -63,6 +69,25 @@ async verifyEmail(@Query('token') token: string) {
 @Get('profile')
 me(@Request() req) {
   return this.authService.getProfile(req.user.sub); 
+}
+
+@UseGuards(GoogleAuthGuard)
+@Get('google')
+@ApiOperation({ summary: 'Initiate Google OAuth login' })
+googleAuth() {
+  // GoogleAuthGuard automatically redirects the request to Google's OAuth page via Passport.
+  // No response is needed here.
+}
+
+@UseGuards(GoogleAuthGuard)
+@Get('google/callback')
+@ApiOperation({ summary: 'Google OAuth callback' })
+async googleAuthCallback(@Request() req, @Res() res: Response) {
+  const tokens = await this.authService.googleLogin(req.user);
+  const frontendUrl = this.configService.get<string>('FRONTEND_URL') ?? 'http://localhost:5173';
+  res.redirect(
+    `${frontendUrl}/auth/google/callback?access_token=${tokens.access_token}&refresh_token=${tokens.refresh_token}`,
+  );
 }
 }
 
