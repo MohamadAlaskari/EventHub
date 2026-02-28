@@ -7,6 +7,16 @@ import type { AuthResponse, AuthUser, LoginCredentials, RegisterCredetials } fro
 class AuthService {
     constructor() {}
 
+    loginWithGoogle(): void {
+        window.location.href = `${import.meta.env.VITE_API_BASE_URL}${API_ENDPOINTS.AUTH.GOOGLE}`;
+    }
+
+    async handleGoogleCallback(accessToken: string, refreshToken: string): Promise<AuthUser> {
+        secureStorage.setItem(AUTH_CONFIG.TOKEN_KEY, accessToken);
+        secureStorage.setItem(AUTH_CONFIG.REFRESH_TOKEN_KEY, refreshToken);
+        return this.getCurrentUser();
+    }
+
     async login(loginCredentials: LoginCredentials) : Promise<AuthUser> {
         try {
             const response = await http.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, loginCredentials);
