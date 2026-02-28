@@ -10,10 +10,17 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     private readonly configService: ConfigService,
     private readonly userService: UserService,
   ) {
+    const callbackURL = configService.get<string>('GOOGLE_CALLBACK_URL');
+    if (!callbackURL) {
+      throw new Error(
+        'GOOGLE_CALLBACK_URL is not configured. Please set it to the exact OAuth callback URL configured in Google Cloud Console.',
+      );
+    }
+
     super({
       clientID: configService.get<string>('GOOGLE_CLIENT_ID') ?? '',
       clientSecret: configService.get<string>('GOOGLE_CLIENT_SECRET') ?? '',
-      callbackURL: configService.get<string>('GOOGLE_CALLBACK_URL') ?? 'http://localhost:3000/auth/google/callback',
+      callbackURL,
       scope: ['email', 'profile'],
     });
   }
